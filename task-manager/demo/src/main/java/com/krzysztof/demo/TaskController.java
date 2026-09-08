@@ -16,32 +16,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
 
     @Autowired
-    private TaskRepository taskRepository;
+    private TaskService taskService;
 
     // Read (GET)
     @GetMapping("/task2")
     public List<Task> getTask2() {
-        return taskRepository.findAll();
+        return taskService.getAllTasks();
     }
 
     // Create (POST)
     @PostMapping("/task2")
     public Task addTask(@RequestBody Task task) {
-        return taskRepository.save(task);
+        return taskService.addTask(task);
     }
 
     // DELETE
     @DeleteMapping("/task2/{id}")
     public void deleteTask(@PathVariable Long id) {
-        taskRepository.deleteById(id);
+        taskService.deleteTask(id);
     }
 
     // Update (PUT)
     @PutMapping("/task2/{id}")
-    public Task updateTask(@PathVariable Long id, @RequestBody Task updateTask) {
-        Task task = taskRepository.findById(id).orElseThrow();
-        task.setName(updateTask.getName());
-        task.setDone(updateTask.isDone());
-        return taskRepository.save(task);
+    public Task updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
+        return taskService.updateTask(id, updatedTask);
     }
 }
